@@ -1,0 +1,5 @@
+*
+!.gitignore
+!tmux
+!.tmux.config
+!go
