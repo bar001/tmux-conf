@@ -1,0 +1,18 @@
+exec git init
+exec git config user.email i@example.com
+exec git config user.name someone
+exec git checkout -b main
+
+exec git add file
+exec sed -i '1d' file
+
+exec git status --porcelain --branch
+stdout '## No commits yet on .+\nAM file'
+
+env WANT_STATUS='NumModified=1 NumStaged=1 IsInitial=true LocalBranch=main State=Default'
+gitstatus
+! stderr .
+
+-- file --
+line1
+line2

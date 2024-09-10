@@ -1,0 +1,15 @@
+exec git init
+exec git config user.email i@example.com
+exec git config user.name someone
+exec git checkout -b main
+
+exec git commit -m 'initial commit' --allow-empty
+exec git status --porcelain --branch
+stdout '## main\n\?\? file'
+
+env WANT_STATUS='NumUntracked=1 LocalBranch=main HEAD=[a-f0-9]{7} State=Default'
+gitstatus
+! stderr .
+
+-- file --
+line

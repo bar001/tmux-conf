@@ -1,0 +1,11 @@
+exec git init
+exec git config user.email i@example.com
+exec git config user.name someone
+exec git checkout -b main
+
+exec git status --porcelain --branch
+stdout '## No commits yet on main\n'
+
+env WANT_STATUS='IsInitial=true LocalBranch=main State=Default'
+gitstatus
+! stderr .

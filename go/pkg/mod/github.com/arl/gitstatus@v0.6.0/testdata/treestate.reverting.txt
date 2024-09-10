@@ -1,0 +1,27 @@
+exec git init
+exec git config user.email i@example.com
+exec git config user.name someone
+exec git checkout -b main
+
+exec git commit -m 'initial commit' --allow-empty
+exec git add file
+exec git commit -m 'add file'
+
+# Add a new commit that modifies the file
+exec sed -i '2 a\inserted' file
+exec git add file
+exec git commit -m 'modifies file'
+
+# Try to revert the before-last commit, which will conflict.
+! exec git revert HEAD~1
+
+exec git status --porcelain --branch
+stdout '## main\nUD file'
+
+env WANT_STATUS='NumConflicts=1 LocalBranch=main HEAD=[a-f0-9]{7} State=Reverting'
+gitstatus
+! stderr .
+
+-- file --
+line1
+line2
